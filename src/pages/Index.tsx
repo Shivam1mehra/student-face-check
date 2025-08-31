@@ -1,12 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Screen } from '@/types/attendance';
+import Navigation from '@/components/Navigation';
+import AddStudentScreen from '@/components/AddStudentScreen';
+import MarkAttendanceScreen from '@/components/MarkAttendanceScreen';
+import ReportsScreen from '@/components/ReportsScreen';
 
 const Index = () => {
+  const [currentScreen, setCurrentScreen] = useState<Screen>('mark-attendance');
+
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'add-student':
+        return <AddStudentScreen />;
+      case 'mark-attendance':
+        return <MarkAttendanceScreen />;
+      case 'reports':
+        return <ReportsScreen />;
+      default:
+        return <MarkAttendanceScreen />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <header className="bg-primary text-primary-foreground p-4 shadow-md">
+        <h1 className="text-xl font-bold text-center">📚 Attendance Tracker</h1>
+      </header>
+      
+      <main className="min-h-[calc(100vh-80px)]">
+        {renderScreen()}
+      </main>
+
+      <Navigation
+        currentScreen={currentScreen}
+        onScreenChange={setCurrentScreen}
+      />
     </div>
   );
 };
